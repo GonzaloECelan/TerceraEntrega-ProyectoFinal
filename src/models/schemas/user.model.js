@@ -4,13 +4,12 @@ const mongoose = require('mongoose');
 const userCollection = 'users';
 
 const userSchema = new mongoose.Schema({
-    first_name:{type:String, required:true},
-    last_name:{type:String, required:true},
-    email:{type:String, unique:true, required:true},
+    first_name:{type:String },
+    last_name:{type:String },
+    email:{type:String, unique:true},
     age:{type:Number},
-    password:{type:String, required:true},
+    password:{type:String},
     rol:{type:String, enum:['USER','ADMIN'], default:'USER'},
-    provider:{type:String}
 })
 
 

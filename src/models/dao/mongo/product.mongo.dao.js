@@ -15,7 +15,7 @@ class productDao {
 
     getById = async (id)=>{
        
-            const productId = await productModel.findById({_id:id}).lean()
+            const productId = await productModel.findById(id).lean()
             return productId
        
     }
@@ -38,7 +38,7 @@ class productDao {
 
     deleteProduct = async (id)=>{
 
-        const deleteProduct = await productModel.findByIdAndDelete()
+        const deleteProduct = await productModel.findByIdAndDelete(id)
         return deleteProduct
     
         }

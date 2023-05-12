@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {productCollection} = require('./product.model');
+const {productCollection} = require('./product.model.js');
 
 const collection = 'carts';
 
@@ -25,7 +25,7 @@ const cartSchema = new mongoose.Schema({
 })
 
 cartSchema.pre('findOne',function(next){
-    this.populate('carrito.producto')
+    this.populate('cart.product')
     next()
 })
 

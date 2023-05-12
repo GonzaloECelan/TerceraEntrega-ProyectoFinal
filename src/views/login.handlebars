@@ -24,7 +24,9 @@
      <div class="register">
           <a href="/api/user/register"><span>¿No tienes cuenta? Registrate</span></a>
         </div>
-       
+     <div class="reset_password">
+          <a href="/api/user/account/reset"><span>Recuperar clave</span></a>
+        </div>
 </div>
 
     </form>
@@ -36,5 +38,11 @@
             window.location.href = '/api/user/register'
         }
         registerButton.addEventListener('click',register);
+
+        const resetButton = document.getElementById('reset_password')
+        function reset(){
+            window.location.href = '/api/user/reset_password'
+        }
+        resetButton.addEventListener('click',reset);
 
     </script>

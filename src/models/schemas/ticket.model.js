@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const collection = 'tickets';
+const collection = 'orders';
 
 const schema = new mongoose.Schema({
-    code:{type:String, unique:true, required:true},
-    purchase_datetime:{type:String, required:true},
-    amount:{type:Number,required:true},
-    purchaser:{type:String, required:true},
+    code:{type:String, unique:true},
+    purchase_datetime:{type:String},
+    amount:{type:Number},
+    email:{type:String, unique:true},
 
 })
 

@@ -1,29 +1,21 @@
 const {productModel} = require('../models/schemas/product.model')
+const {productService} = require('../services/product.service.js')
+const {htpp_status, HttpError} = require('../utils/api.utils.js')
+
+const productsService = new productService();
+
+
 
 class ProductControllers {
     
 static getAll = async (req, res, next)=>{
-    const limit = req.query.limit;
+    
     try {
-        if(!limit){
-            
-            const response = await productModel.find().lean().sort({price:1}).limit(10);
-            const data = {
-                title: "Productos",
-                product:response
-            }
-            res.render('productos',data);
-        }else{
-            const response = await productModel.find().lean().limit(parseFloat(limit));
-            const data = {
-                title: "Productos",
-                product:response
-            }
-            res.render('productos',data);
-        }
- 
-        // res.status(200).send({result:'success', products: response})
 
+        const response =  await productsService.getProducts()
+        res.status(htpp_status.OK).send({payload:response})
+
+ 
     } catch (error) {
         next(error)
     }
@@ -32,40 +24,39 @@ static getAll = async (req, res, next)=>{
 static getById = async (req, res, next) =>{
     const productId = req.params.id;
     try {
-        const response = await productModel.find({_id:productId});
-        res.status(200).send({result:'success', ProductId: response})
+        const response= await productsService.getProductById(productId)
+        res.status(htpp_status.OK).send({payload:response})
     } catch (error) {
         next(error)
     }
 }
 
-static createProduct = async (req,res,next)=>{
-    const createProduct = req.body
+static createProducts = async (req,res,next)=>{
+    const payload = req.body
     try {
-        const response = await productModel.create(createProduct)
-        res.status(200).send({result:'success', addProduct: response})
+        const response = await productsService.createNewProduct(payload)
+        res.status(htpp_status.CREATED).send({payload:response})
     } catch (error) {
         next(error)
     }
 }
 
 static upDateProduct = async (req,res,next) =>{
-    const updateId = req.params.id;
-    const updateProduct = req.body;
-
+    const productId = req.params.id;
+    const payload = req.body;
     try {
-        const response = await productModel.findByIdAndUpdate(updateId,updateProduct,{new:true});
-        res.status(200).send({result:'success', update: response})
+        const response = await productsService.updateProduct(productId,payload );
+        res.status(htpp_status.OK).send({Productupdate: response})
     } catch (error) {
         next(error)
     }
 }
 
 static deleteProduct = async (req,res,next)=>{
-    const deleteId = req.params.id;
+    const productId = req.params.id;
     try {
-        const response = await productModel.findByIdAndDelete(deleteId);
-        res.status(200).send({result:'success', productDelete: response})
+        const response = await productsService.deleteProduct(productId);
+        res.status(htpp_status.OK).send({productDelete: response})
     } catch (error) {
         next(error)
     }

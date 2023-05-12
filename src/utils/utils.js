@@ -1,6 +1,17 @@
 const jwt = require('jsonwebtoken');
 const {ENV_CONFIG} = require('../config/env.config');
 
+
+const resetPasswordToken = (user) =>{
+    const token = jwt.sign({...user},ENV_CONFIG.SECRET_KEY,{expiresIn:'1m'})
+    return token
+}
+
+const verifyToken = (token) =>{
+const tokenVerify = jwt.verify(token,ENV_CONFIG.SECRET_KEY)
+return tokenVerify
+}
+
 const generateToken = (user)=>{
     const token = jwt.sign({...user},ENV_CONFIG.SECRET_KEY,{expiresIn:'24h'})
 
@@ -9,6 +20,8 @@ const generateToken = (user)=>{
 
 const authToken = (req,res,next) =>{
     const token = req.cookies['userLogin'];
+    // const token = req.query.token
+
     if(!cookie){
         return res.status(401).send({error:'Not authenticated'})
     }else{
@@ -35,5 +48,7 @@ const cookieExtractor = (req) => {
   module.exports = {
     generateToken,
     cookieExtractor,
-    authToken
+    authToken,
+    verifyToken,
+    resetPasswordToken
   };
